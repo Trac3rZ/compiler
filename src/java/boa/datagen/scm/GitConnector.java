@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.sound.sampled.ReverbType;
 
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -118,7 +117,7 @@ public class GitConnector extends AbstractConnector {
 	}
 
 	@Override
-	public void setRevisions() {
+	public void setRevisions(boolean noCommitLimit) {
 		RevWalk temprevwalk = new RevWalk(repository);
 		try {
 			revwalk.reset();
@@ -170,7 +169,7 @@ public class GitConnector extends AbstractConnector {
 				gc.updateChangedFiles(rc);
 				gc.fileNameIndices.clear();
 
-				if (commitList.size() > MAX_COMMITS) {
+				if (!noCommitLimit && commitList.size() > MAX_COMMITS) {
 					revisionMap.put(gc.id, revisionKeys.size());
 
 					Revision revision = gc.asProtobuf(projectName);
@@ -196,7 +195,7 @@ public class GitConnector extends AbstractConnector {
 				}
 			}
 			
-			System.err.println(Thread.currentThread().getId() + " Process metadata of all commits");
+			System.err.println(Thread.currentThread().getId() + " Processing metadata of all commits");
 
 			RevCommit head = revwalk.parseCommit(repository.resolve(Constants.HEAD));
 			headCommitOffset = revisionMap.get(head.getName());
@@ -214,13 +213,11 @@ public class GitConnector extends AbstractConnector {
 	private Set<RevCommit> getHeads() {
 		Set<RevCommit> heads = new HashSet<RevCommit>();
 		try {
-			for (final Ref ref : git.branchList().call()) {
+			for (final Ref ref : repository.getRefDatabase().getRefs()) {
 				heads.add(revwalk.parseCommit(repository.resolve(ref.getName())));
 			}
-		} catch (final GitAPIException e) {
-			if (debug)
-				System.err.println("Git Error reading heads: " + e.getMessage());
-		} catch (final IOException e) {
+		}
+		catch (final IOException e) {
 			if (debug)
 				System.err.println("Git Error reading heads: " + e.getMessage());
 		}

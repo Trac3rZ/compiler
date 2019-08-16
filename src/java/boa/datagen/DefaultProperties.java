@@ -25,7 +25,7 @@ import java.util.HashMap;
  */
 public class DefaultProperties {
 	public static String NUM_THREADS = "1";
-	public static String MAX_PROJECTS = "1000";
+	public static String MAX_PROJECTS = "250";
 	public static String MAX_COMMITS = "10000";
 	public static String MAX_SIZE_FOR_PROJECT_WITH_COMMITS = String.valueOf(1 << 26); // Integer.MAX_VALUE / 3
 	public static double MAX_SIZE_FACTOR = 1;

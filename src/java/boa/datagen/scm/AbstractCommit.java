@@ -81,6 +81,10 @@ public abstract class AbstractCommit {
 	// fileNameIndices, changedFiles for ChangedFile
 	protected Map<String, Integer> fileNameIndices = new HashMap<String, Integer>();
 	protected List<ChangedFile.Builder> changedFiles = new ArrayList<ChangedFile.Builder>();
+	
+	public List<ChangedFile.Builder> getChangedFilesList() {
+		return changedFiles;
+	}
 
 	protected ChangedFile.Builder getChangeFile(String path, ChangeKind changeKind, ObjectId oid) {
 		ChangedFile.Builder cfb = null;

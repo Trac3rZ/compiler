@@ -50,7 +50,7 @@ public class TestBuildSnapshot {
 		if (!gitDir.exists())
 			return;
 		GitConnector gc = new GitConnector(gitDir.getAbsolutePath(), "condoia");
-		gc.setRevisions();
+		gc.setRevisions(false);
 		System.out.println("Finish processing commits");
 		List<ChangedFile> snapshot1 = gc.buildHeadSnapshot();
 		System.out.println("Finish building head snapshot");

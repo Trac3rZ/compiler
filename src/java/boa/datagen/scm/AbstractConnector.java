@@ -168,7 +168,7 @@ public abstract class AbstractConnector implements AutoCloseable {
 		}
 	}
 	
-	public abstract void setRevisions();
+	public abstract void setRevisions(boolean noCommitLimit);
 
 	public List<AbstractCommit> getRevisions() {
 		return revisions;
@@ -197,7 +197,7 @@ public abstract class AbstractConnector implements AutoCloseable {
 	public List<Object> getRevisions(final String projectName) {
 		this.projectName = projectName;
 		
-		setRevisions();
+		setRevisions(false);
 		
 		long maxTime = 1000;
 		final List<Object> revs = new ArrayList<Object>();
