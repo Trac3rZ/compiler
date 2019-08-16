@@ -339,7 +339,7 @@ public class SeqRepoImporter {
 			closeWriters();
 		}
 
-		private synchronized Project storeRepository(Project project, final int i)
+		private Project storeRepository(Project project, final int i)
 				throws LargeObjectException, MissingObjectException, IncorrectObjectTypeException {
 			final CodeRepository repo = project.getCodeRepositories(i);
 			final Project.Builder projBuilder = Project.newBuilder(project);
